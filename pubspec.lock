@@ -93,7 +93,7 @@ packages:
     source: hosted
     version: "1.5.3"
   build_runner:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
