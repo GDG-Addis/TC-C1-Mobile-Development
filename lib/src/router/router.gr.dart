@@ -7,14 +7,17 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../app.dart';
 
 class Routes {
-  static const String homeScreen = '/';
+  static const String productScreen = '/product-screen';
+  static const String productsScreen = '/';
   static const all = <String>{
-    homeScreen,
+    productScreen,
+    productsScreen,
   };
 }
 
@@ -22,16 +25,40 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.homeScreen, page: HomeScreen),
+    RouteDef(Routes.productScreen, page: ProductScreen),
+    RouteDef(Routes.productsScreen, page: ProductsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    HomeScreen: (data) {
+    ProductScreen: (data) {
+      final args = data.getArgs<ProductScreenArguments>(
+        orElse: () => ProductScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const HomeScreen(),
+        builder: (context) => ProductScreen(
+          key: args.key,
+          product: args.product,
+        ),
+        settings: data,
+      );
+    },
+    ProductsScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const ProductsScreen(),
         settings: data,
       );
     },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// ProductScreen arguments holder class
+class ProductScreenArguments {
+  final Key key;
+  final Product product;
+  ProductScreenArguments({this.key, this.product});
 }
