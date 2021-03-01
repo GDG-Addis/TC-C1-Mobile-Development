@@ -7,6 +7,7 @@ GetIt getIt = GetIt.instance;
 void registerDependencies() {
   _registerConfigurations();
   _registerProduct();
+  _registerProfile();
 }
 
 void _registerConfigurations() {
@@ -27,4 +28,10 @@ void _registerProduct() {
   getIt
     ..registerFactory<ProductRepository>(() => ProductRepositoryImpl(getIt()))
     ..registerFactory(() => ProductsCubit(getIt()));
+}
+
+void _registerProfile() {
+  getIt
+    ..registerFactory<ProfileRepository>(() => ProfileRepositoryImpl(getIt()))
+    ..registerFactory(() => ProfileCubit(getIt()));
 }
