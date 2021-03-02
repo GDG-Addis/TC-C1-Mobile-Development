@@ -7,6 +7,7 @@ export 'router.gr.dart';
 
 @MaterialAutoRouter(routes: [
   MaterialRoute(page: ProductScreen),
+  MaterialRoute(page: ProfileScreen),
   MaterialRoute(page: ProductsScreen, initial: true),
 ])
 class $Router {}

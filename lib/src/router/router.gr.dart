@@ -14,9 +14,11 @@ import '../../app.dart';
 
 class Routes {
   static const String productScreen = '/product-screen';
-  static const String productsScreen = '/';
+  static const String profileScreen = '/';
+  static const String productsScreen = '/products-screen';
   static const all = <String>{
     productScreen,
+    profileScreen,
     productsScreen,
   };
 }
@@ -26,6 +28,7 @@ class Router extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.productScreen, page: ProductScreen),
+    RouteDef(Routes.profileScreen, page: ProfileScreen),
     RouteDef(Routes.productsScreen, page: ProductsScreen),
   ];
   @override
@@ -40,6 +43,12 @@ class Router extends RouterBase {
           key: args.key,
           product: args.product,
         ),
+        settings: data,
+      );
+    },
+    ProfileScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const ProfileScreen(),
         settings: data,
       );
     },
