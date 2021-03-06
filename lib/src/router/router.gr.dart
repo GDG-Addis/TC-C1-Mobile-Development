@@ -14,8 +14,8 @@ import '../../app.dart';
 
 class Routes {
   static const String productScreen = '/product-screen';
-  static const String profileScreen = '/';
-  static const String productsScreen = '/products-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String productsScreen = '/';
   static const all = <String>{
     productScreen,
     profileScreen,
