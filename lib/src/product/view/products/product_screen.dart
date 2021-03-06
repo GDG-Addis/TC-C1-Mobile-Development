@@ -10,7 +10,48 @@ class ProductsScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<ProductsCubit>()..getAll(),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              Routes.profileScreen,
+            ),
+          ),
+        ),
+        floatingActionButton: BlocBuilder<CartCubit, CartState>(
+          builder: (_, state) {
+            final fab = FloatingActionButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(Routes.cartScreen),
+              child: Icon(Icons.shopping_cart),
+            );
+            var cartItemsCount = state.carts.fold(
+              0,
+              (previousValue, element) => previousValue + element.quantity,
+            );
+            return cartItemsCount > 0
+                ? Stack(
+                    overflow: Overflow.visible,
+                    children: [
+                      fab,
+                      Positioned(
+                        right: -2.0,
+                        top: -4.0,
+                        child: CircleAvatar(
+                          radius: 12.0,
+                          backgroundColor: Colors.white,
+                          child: Text("$cartItemsCount"),
+                        ),
+                      )
+                    ],
+                  )
+                : fab;
+          },
+        ),
         body: Builder(
           builder: (context) => RefreshIndicator(
             onRefresh: context.read<ProductsCubit>().refresh,
@@ -85,7 +126,11 @@ class _ProductItem extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.add),
+                    child: IconButton(
+                      onPressed: () =>
+                          BlocProvider.of<CartCubit>(context).add(product),
+                      icon: Icon(Icons.add),
+                    ),
                   ),
                 ],
               ),

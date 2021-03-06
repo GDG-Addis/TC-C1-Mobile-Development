@@ -10,10 +10,13 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<ProfileCubit>()..get(),
       child: Scaffold(
-        backgroundColor: const Color(0xffEDECE7),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: const Color(0xffEDECE7),
+          backgroundColor: Colors.white,
           brightness: Brightness.light,
+          leading: BackButton(
+            color: Colors.black,
+          ),
           elevation: 0.0,
           title: Text(
             "Profile",

@@ -26,8 +26,8 @@ class CartCubit extends HydratedCubit<CartState> {
   }
 
   @override
-  CartState fromJson(Map<String, dynamic> json) => CartState(
-      carts: json[key].map<CartState>((e) => Cart.fromJson(e)).toList());
+  CartState fromJson(Map<String, dynamic> json) =>
+      CartState(carts: json[key].map<Cart>((e) => Cart.fromJson(e)).toList());
 
   @override
   Map<String, dynamic> toJson(CartState state) => <String, dynamic>{
