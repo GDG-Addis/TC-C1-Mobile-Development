@@ -9,21 +9,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:techamp_flutter_shopping_app/src/cart/view/cart_screen.dart';
 
 import '../../app.dart';
+import '../cart/view/cart_screen.dart';
 
 class Routes {
+  static const String cartScreen = '/cart-screen';
   static const String productScreen = '/product-screen';
   static const String profileScreen = '/profile-screen';
-  static const String cartScreen = '/cart-screen';
-
   static const String productsScreen = '/';
   static const all = <String>{
+    cartScreen,
     productScreen,
     profileScreen,
     productsScreen,
-    cartScreen
   };
 }
 
@@ -31,14 +30,20 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
+    RouteDef(Routes.cartScreen, page: CartScreen),
     RouteDef(Routes.productScreen, page: ProductScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
-    RouteDef(Routes.cartScreen, page: CartScreen),
     RouteDef(Routes.productsScreen, page: ProductsScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
+    CartScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CartScreen(),
+        settings: data,
+      );
+    },
     ProductScreen: (data) {
       final args = data.getArgs<ProductScreenArguments>(
         orElse: () => ProductScreenArguments(),
@@ -54,12 +59,6 @@ class Router extends RouterBase {
     ProfileScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const ProfileScreen(),
-        settings: data,
-      );
-    },
-    CartScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => CartScreen(),
         settings: data,
       );
     },

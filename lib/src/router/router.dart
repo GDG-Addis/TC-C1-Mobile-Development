@@ -6,6 +6,7 @@ import 'package:techamp_flutter_shopping_app/app.dart';
 export 'router.gr.dart';
 
 @MaterialAutoRouter(routes: [
+  MaterialRoute(page: CartScreen),
   MaterialRoute(page: ProductScreen),
   MaterialRoute(page: ProfileScreen),
   MaterialRoute(page: ProductsScreen, initial: true),
