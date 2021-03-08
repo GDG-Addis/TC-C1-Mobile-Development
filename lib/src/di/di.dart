@@ -8,6 +8,7 @@ void registerDependencies() {
   _registerConfigurations();
   _registerProduct();
   _registerProfile();
+  _registerCart();
 }
 
 void _registerConfigurations() {
@@ -34,4 +35,8 @@ void _registerProfile() {
   getIt
     ..registerFactory<ProfileRepository>(() => ProfileRepositoryImpl(getIt()))
     ..registerFactory(() => ProfileCubit(getIt()));
+}
+
+void _registerCart() {
+  getIt..registerFactory<CartCubit>(() => CartCubit());
 }

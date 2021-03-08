@@ -9,17 +9,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:techamp_flutter_shopping_app/src/cart/view/cart_screen.dart';
 
 import '../../app.dart';
 
 class Routes {
   static const String productScreen = '/product-screen';
-  static const String profileScreen = '/';
-  static const String productsScreen = '/products-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String cartScreen = '/cart-screen';
+
+  static const String productsScreen = '/';
   static const all = <String>{
     productScreen,
     profileScreen,
     productsScreen,
+    cartScreen
   };
 }
 
@@ -29,6 +33,7 @@ class Router extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.productScreen, page: ProductScreen),
     RouteDef(Routes.profileScreen, page: ProfileScreen),
+    RouteDef(Routes.cartScreen, page: CartScreen),
     RouteDef(Routes.productsScreen, page: ProductsScreen),
   ];
   @override
@@ -49,6 +54,12 @@ class Router extends RouterBase {
     ProfileScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const ProfileScreen(),
+        settings: data,
+      );
+    },
+    CartScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CartScreen(),
         settings: data,
       );
     },
