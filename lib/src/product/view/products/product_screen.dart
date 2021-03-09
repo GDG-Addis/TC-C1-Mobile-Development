@@ -127,8 +127,8 @@ class _ProductItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
-                      onPressed: () =>
-                          BlocProvider.of<CartCubit>(context).add(product),
+                      onPressed: () => BlocProvider.of<CartCubit>(context)
+                          .addProduct(product),
                       icon: Icon(Icons.add),
                     ),
                   ),
