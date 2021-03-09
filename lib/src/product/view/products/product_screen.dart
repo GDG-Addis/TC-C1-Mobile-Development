@@ -12,63 +12,63 @@ class ProductsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            onPressed: () => Navigator.pushNamed(
-              context,
-              Routes.profileScreen,
-            ),
+            icon: Icon(Icons.person, color: Colors.white),
+            onPressed: () => context.navigator.push(Routes.profileScreen),
           ),
         ),
-        floatingActionButton: BlocBuilder<CartCubit, CartState>(
-          builder: (_, state) {
-            final fab = FloatingActionButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.cartScreen),
-              child: Icon(Icons.shopping_cart),
-            );
-            var cartItemsCount = state.carts.fold(
-              0,
-              (previousValue, element) => previousValue + element.quantity,
-            );
-            return cartItemsCount > 0
-                ? Stack(
-                    overflow: Overflow.visible,
-                    children: [
-                      fab,
-                      Positioned(
-                        right: -2.0,
-                        top: -4.0,
-                        child: CircleAvatar(
-                          radius: 12.0,
-                          backgroundColor: Colors.white,
-                          child: Text("$cartItemsCount"),
-                        ),
-                      )
-                    ],
-                  )
-                : fab;
-          },
-        ),
-        body: Builder(
-          builder: (context) => RefreshIndicator(
-            onRefresh: context.read<ProductsCubit>().refresh,
-            child: BlocBuilder<ProductsCubit, ProductsState>(
-              buildWhen: (previous, current) => previous.maybeWhen(
-                loaded: (products) => false,
-                orElse: () => true,
-              ),
-              builder: (context, state) => state.maybeWhen(
-                error: (error) => _ProductsErrorWidget(error: error),
-                loaded: (products) => _ProductsGridView(products: products),
-                orElse: () => Center(child: const CircularProgressIndicator()),
+        floatingActionButton: const _CartButton(),
+        body: SafeArea(
+          child: Builder(
+            builder: (context) => RefreshIndicator(
+              onRefresh: context.read<ProductsCubit>().refresh,
+              child: BlocBuilder<ProductsCubit, ProductsState>(
+                buildWhen: (previous, current) => previous.maybeWhen(
+                  loaded: (products) => false,
+                  orElse: () => true,
+                ),
+                builder: (context, state) => state.maybeWhen(
+                  error: (error) => _ProductsErrorWidget(error: error),
+                  loaded: (products) => _ProductsGridView(products: products),
+                  orElse: () =>
+                      Center(child: const CircularProgressIndicator()),
+                ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CartButton extends StatelessWidget {
+  const _CartButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (_, state) {
+        final count = state.carts.totalProductsQuantity;
+        return Stack(
+          overflow: Overflow.visible,
+          children: [
+            FloatingActionButton(
+              onPressed: () => context.navigator.push(Routes.cartScreen),
+              child: Icon(Icons.shopping_cart),
+            ),
+            if (count > 0)
+              Positioned(
+                top: -4.0,
+                right: -2.0,
+                child: CircleAvatar(
+                  radius: 12.0,
+                  backgroundColor: Colors.white,
+                  child: Text("$count"),
+                ),
+              )
+          ],
+        );
+      },
     );
   }
 }
@@ -124,13 +124,10 @@ class _ProductItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      onPressed: () => BlocProvider.of<CartCubit>(context)
-                          .addProduct(product),
-                      icon: Icon(Icons.add),
-                    ),
+                  IconButton(
+                    onPressed: () =>
+                        context.read<CartCubit>().addProduct(product),
+                    icon: Icon(Icons.add_shopping_cart_rounded),
                   ),
                 ],
               ),

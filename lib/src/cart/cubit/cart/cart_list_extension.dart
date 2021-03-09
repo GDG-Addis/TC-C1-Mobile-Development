@@ -1,6 +1,10 @@
 part of 'cart_cubit.dart';
 
 extension Carts on List<Cart> {
+  int get totalProductsQuantity {
+    return fold(0, (prev, cart) => prev + cart.quantity);
+  }
+
   List<Cart> addOrUpdate(Product product) {
     final oldCart = firstWhere((c) => c.product == product, orElse: () => null);
     if (oldCart == null) {
