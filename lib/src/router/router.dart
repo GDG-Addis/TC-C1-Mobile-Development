@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:techamp_flutter_shopping_app/app.dart';
+import 'package:techamp_flutter_shopping_app/src/cart/view/cart_screen.dart';
 
 export 'router.gr.dart';
 
