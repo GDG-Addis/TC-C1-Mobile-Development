@@ -1,12 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:techamp_flutter_shopping_app/app.dart';
 import 'package:meta/meta.dart';
+import 'package:techamp_flutter_shopping_app/app.dart';
+
 part 'profile_cubit.freezed.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileRepository _profileRepository;
+  final ProfileRepository _profileRepository;
 
   ProfileCubit(this._profileRepository)
       : assert(_profileRepository != null),
