@@ -47,38 +47,18 @@ class _CartAction extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _IconButton(
-          iconData: cart.quantity == 1 ? Icons.delete : Icons.remove,
-          isEnabled: cart.quantity > 0,
-          onTap: () => context.read<CartCubit>().decreaseQuantity(cart),
+        IconButton(
+          icon: Icon(cart.quantity == 1 ? Icons.delete : Icons.remove),
+          onPressed: () => cart.quantity > 0
+              ? context.read<CartCubit>().decreaseQuantity(cart)
+              : null,
         ),
         Text('${cart.quantity}'),
-        _IconButton(
-          iconData: Icons.add,
-          onTap: () => context.read<CartCubit>().addProduct(cart.product),
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => context.read<CartCubit>().addProduct(cart.product),
         )
       ],
-    );
-  }
-}
-
-class _IconButton extends StatelessWidget {
-  final bool isEnabled;
-  final IconData iconData;
-  final VoidCallback onTap;
-
-  const _IconButton({
-    Key key,
-    this.onTap,
-    this.iconData,
-    this.isEnabled = true,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: isEnabled ? onTap : null,
-      icon: Icon(iconData),
     );
   }
 }
