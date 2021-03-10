@@ -1,54 +1,35 @@
 part of 'cart_cubit.dart';
 
-extension on List<Cart> {
-  int indexOfProductId(int productId) {
-    return indexWhere((e) => e.product.id == productId);
+extension Carts on List<Cart> {
+  int get totalProductsQuantity {
+    return fold(0, (prev, cart) => prev + cart.quantity);
   }
 
   List<Cart> addOrUpdate(Product product) {
-    var index = indexOfProductId(product.id);
-    if (index < 0) {
-      return List.from(this)
-        ..add(
-          Cart(
-            product: product,
-            quantity: 1,
-          ),
-        );
-    }
-
-    return List<Cart>.from(this).._incrementQuantity(index);
-  }
-
-  List<Cart> addByProductId(int productId) {
-    var index = indexOfProductId(productId);
-    if (index < 0) {
-      return List.from(this);
-    }
-
-    return List<Cart>.from(this).._incrementQuantity(index);
-  }
-
-  List<Cart> removeByProductId(int productId) {
-    var index = indexOfProductId(productId);
-    if (index < 0) {
-      return List.from(this);
-    }
-
-    return List<Cart>.from(this).._decrementQuantity(index);
-  }
-
-  void _incrementQuantity(int index) {
-    var quantity = this[index].quantity;
-    this[index] = this[index].copyWith(quantity: quantity + 1);
-  }
-
-  void _decrementQuantity(int index) {
-    var quantity = this[index].quantity;
-    if (quantity > 1) {
-      this[index] = this[index].copyWith(quantity: quantity - 1);
+    final oldCart = firstWhere((c) => c.product == product, orElse: () => null);
+    if (oldCart == null) {
+      final cart = Cart(quantity: 1, product: product);
+      return List.from(this)..add(cart);
     } else {
-      removeAt(index);
+      final updatedCart = oldCart.addQuantity();
+      return List.from(this)
+        ..remove(oldCart)
+        ..add(updatedCart);
+    }
+  }
+
+  List<Cart> removeByProduct(Product product) {
+    return List.from(this)..removeWhere((cart) => cart.product == product);
+  }
+
+  List<Cart> removeOrDecrementQuantity(Cart cart) {
+    final updatedCart = cart.decrementQuantity();
+    if (updatedCart.quantity == 0) {
+      return List.from(this)..remove(cart);
+    } else {
+      return List.from(this)
+        ..remove(cart)
+        ..add(updatedCart);
     }
   }
 }

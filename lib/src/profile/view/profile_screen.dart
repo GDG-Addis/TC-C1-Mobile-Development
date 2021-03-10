@@ -12,12 +12,10 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          brightness: Brightness.light,
-          leading: BackButton(
-            color: Colors.black,
-          ),
           elevation: 0.0,
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          leading: BackButton(color: Colors.black),
           title: Text(
             "Profile",
             style: TextStyle(
@@ -34,49 +32,12 @@ class ProfileScreen extends StatelessWidget {
               builder: (context, state) => state.maybeWhen(
                 error: (error) => _ProfileErrorWidget(error: error),
                 loaded: (profile) => _Profile(profile: profile),
-                orElse: () => _ProfileLoadingWidget(),
+                orElse: () => Center(child: const CircularProgressIndicator()),
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ProfileLoadingWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: const CircularProgressIndicator());
-  }
-}
-
-class _ProfileErrorWidget extends StatelessWidget {
-  final String error;
-
-  const _ProfileErrorWidget({Key key, this.error})
-      : assert(error != null),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          error,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        const SizedBox(height: 16),
-        Align(
-          child: RaisedButton(
-            onPressed: context.read<ProductsCubit>().refresh,
-            child: Text('Retry'),
-          ),
-        ),
-      ],
     );
   }
 }
@@ -107,9 +68,7 @@ class _Profile extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(
-                height: 18.0,
-              ),
+              SizedBox(height: 18.0),
               Text(
                 "${profile.fullName.firstName} ${profile.fullName.lastName}",
                 style: TextStyle(
@@ -117,9 +76,7 @@ class _Profile extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                height: 2.0,
-              ),
+              SizedBox(height: 2.0),
               Text(
                 "@${profile.username}",
                 style: TextStyle(
@@ -127,9 +84,7 @@ class _Profile extends StatelessWidget {
                   color: Color(0xffB5B4B2),
                 ),
               ),
-              SizedBox(
-                height: 24.0,
-              ),
+              SizedBox(height: 24.0),
               _ProfileTile(
                 title: "First Name",
                 value: "${profile.fullName.firstName}",
@@ -164,15 +119,45 @@ class _Profile extends StatelessWidget {
   }
 }
 
+class _ProfileErrorWidget extends StatelessWidget {
+  final String error;
+
+  const _ProfileErrorWidget({Key key, this.error})
+      : assert(error != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          error,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        const SizedBox(height: 16),
+        Align(
+          child: RaisedButton(
+            onPressed: context.read<ProductsCubit>().refresh,
+            child: Text('Retry'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _ProfileTile extends StatelessWidget {
   final String title;
   final String value;
 
-  const _ProfileTile({
-    Key key,
-    this.title,
-    this.value,
-  }) : super(key: key);
+  const _ProfileTile({Key key, this.title, this.value})
+      : assert(title != null),
+        assert(value != null),
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(

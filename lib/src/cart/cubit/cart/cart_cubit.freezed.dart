@@ -14,7 +14,7 @@ class _$CartStateTearOff {
   const _$CartStateTearOff();
 
 // ignore: unused_element
-  _CartState call({List<Cart> carts}) {
+  _CartState call({@required List<Cart> carts}) {
     return _CartState(
       carts: carts,
     );
@@ -88,7 +88,7 @@ class __$CartStateCopyWithImpl<$Res> extends _$CartStateCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_CartState implements _CartState {
-  _$_CartState({this.carts});
+  const _$_CartState({@required this.carts}) : assert(carts != null);
 
   @override
   final List<Cart> carts;
@@ -117,7 +117,7 @@ class _$_CartState implements _CartState {
 }
 
 abstract class _CartState implements CartState {
-  factory _CartState({List<Cart> carts}) = _$_CartState;
+  const factory _CartState({@required List<Cart> carts}) = _$_CartState;
 
   @override
   List<Cart> get carts;
