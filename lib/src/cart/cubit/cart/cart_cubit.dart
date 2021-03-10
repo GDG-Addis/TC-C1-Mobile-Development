@@ -8,7 +8,7 @@ part 'cart_state.dart';
 
 class CartCubit extends HydratedCubit<CartState> {
   @visibleForTesting
-  static const key = "carts";
+  static const key = 'carts';
 
   CartCubit() : super(const CartState(carts: []));
 

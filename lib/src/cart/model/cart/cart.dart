@@ -18,7 +18,9 @@ extension CartX on Cart {
   Cart addQuantity() => copyWith(quantity: quantity + 1);
 
   Cart decrementQuantity() {
-    if (quantity == 0) return this;
+    if (quantity == 0) {
+      return this;
+    }
     return copyWith(quantity: quantity - 1);
   }
 }

@@ -14,12 +14,12 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<List<Product>> getAll() async {
     try {
       final response = await _dio.get('products');
-      List productsJson = response.data;
+      final List productsJson = response.data;
       return productsJson.map((json) => Product.fromJson(json)).toList();
     } on DioError catch (_) {
-      throw 'Network error';
-    } catch (_) {
-      throw 'Something went wrong.';
+      throw const AppError('Network error');
+    } on dynamic catch (_) {
+      throw const AppError('Something went wrong.');
     }
   }
 }

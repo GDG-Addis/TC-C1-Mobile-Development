@@ -12,16 +12,16 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          elevation: 0.0,
+          elevation: 0,
           brightness: Brightness.light,
           backgroundColor: Colors.white,
-          leading: BackButton(color: Colors.black),
-          title: Text(
-            "Profile",
+          leading: const BackButton(color: Colors.black),
+          title: const Text(
+            'Profile',
             style: TextStyle(
-              color: const Color(0xff373535),
+              color: Color(0xff373535),
               fontWeight: FontWeight.bold,
-              fontSize: 18.0,
+              fontSize: 18,
             ),
           ),
         ),
@@ -32,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
               builder: (context, state) => state.maybeWhen(
                 error: (error) => _ProfileErrorWidget(error: error),
                 loaded: (profile) => _Profile(profile: profile),
-                orElse: () => Center(child: const CircularProgressIndicator()),
+                orElse: () => const Center(child: CircularProgressIndicator()),
               ),
             ),
           ),
@@ -45,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
 class _Profile extends StatelessWidget {
   final Profile profile;
 
-  const _Profile({Key key, this.profile})
+  const _Profile({Key key, @required this.profile})
       : assert(profile != null),
         super(key: key);
 
@@ -54,63 +54,56 @@ class _Profile extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          margin: const EdgeInsets.only(top: 24.0),
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          margin: const EdgeInsets.only(top: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 50.0,
+                radius: 50,
                 backgroundColor: Colors.grey[900],
-                child: Icon(
+                child: const Icon(
                   Icons.person,
                   size: 40,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 18.0),
+              const SizedBox(height: 18),
               Text(
-                "${profile.fullName.firstName} ${profile.fullName.lastName}",
-                style: TextStyle(
-                  fontSize: 18.0,
+                '${profile.fullName.firstName} ${profile.fullName.lastName}',
+                style: const TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 2.0),
+              const SizedBox(height: 2),
               Text(
-                "@${profile.username}",
-                style: TextStyle(
-                  fontSize: 14.0,
+                '@${profile.username}',
+                style: const TextStyle(
+                  fontSize: 14,
                   color: Color(0xffB5B4B2),
                 ),
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24),
               _ProfileTile(
-                title: "First Name",
-                value: "${profile.fullName.firstName}",
+                title: 'First Name',
+                value: profile.fullName.firstName,
               ),
-              Divider(),
+              const Divider(),
               _ProfileTile(
-                title: "Last Name",
-                value: "${profile.fullName.lastName}",
+                title: 'Last Name',
+                value: profile.fullName.lastName,
               ),
-              Divider(),
+              const Divider(),
+              _ProfileTile(title: 'My Email', value: profile.email),
+              const Divider(),
               _ProfileTile(
-                title: "My Email",
-                value: "${profile.email}",
+                title: 'My Address',
+                value: '${profile.address.zipcode}, ${profile.address.street}, '
+                    '${profile.address.city}',
               ),
-              Divider(),
-              _ProfileTile(
-                title: "My Address",
-                value:
-                    "${profile.address.zipcode}, ${profile.address.street}, ${profile.address.city}",
-              ),
-              Divider(),
-              _ProfileTile(
-                title: "My Phone",
-                value: "${profile.phone}",
-              ),
-              Divider(),
+              const Divider(),
+              _ProfileTile(title: 'My Phone', value: profile.phone),
+              const Divider(),
             ],
           ),
         ),
@@ -122,7 +115,7 @@ class _Profile extends StatelessWidget {
 class _ProfileErrorWidget extends StatelessWidget {
   final String error;
 
-  const _ProfileErrorWidget({Key key, this.error})
+  const _ProfileErrorWidget({Key key, @required this.error})
       : assert(error != null),
         super(key: key);
 
@@ -141,7 +134,7 @@ class _ProfileErrorWidget extends StatelessWidget {
         Align(
           child: RaisedButton(
             onPressed: context.read<ProductsCubit>().refresh,
-            child: Text('Retry'),
+            child: const Text('Retry'),
           ),
         ),
       ],
@@ -153,7 +146,7 @@ class _ProfileTile extends StatelessWidget {
   final String title;
   final String value;
 
-  const _ProfileTile({Key key, this.title, this.value})
+  const _ProfileTile({Key key, @required this.title, @required this.value})
       : assert(title != null),
         assert(value != null),
         super(key: key);
@@ -161,20 +154,20 @@ class _ProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "$title",
-            style: TextStyle(
+            title,
+            style: const TextStyle(
               color: Color(0xff373535),
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            "$value",
-            style: TextStyle(
+            value,
+            style: const TextStyle(
               color: Color(0xff373535),
             ),
           ),

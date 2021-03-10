@@ -5,7 +5,7 @@ void main() {
   group('Profile', () {
     test('fromJson should return Product with correct values', () {
       final actual = Profile.fromJson(_ProfileFake.json);
-      final expected = _ProfileFake.model;
+      const expected = _ProfileFake.model;
 
       expect(actual, expected);
     });
@@ -15,7 +15,7 @@ void main() {
 class _ProfileFake {
   static const _id = 1;
   static const _email = 'John@gmail.com';
-  static const _username = "johnd";
+  static const _username = 'johnd';
   static const _firstname = 'John';
   static const _lastname = 'Doe';
   static const _city = 'kilcoole';
@@ -29,21 +29,21 @@ class _ProfileFake {
   static const _phone = '1-570-236-7033';
 
   static final json = {
-    "id": _id,
-    "email": _email,
-    "username": _username,
-    "name": {"firstname": _firstname, "lastname": _lastname},
-    "address": {
-      "city": _city,
-      "street": _street,
-      "number": _number,
-      "zipcode": _zipcode,
-      "geolocation": {"lat": _lat, "long": _lng}
+    'id': _id,
+    'email': _email,
+    'username': _username,
+    'name': {'firstname': _firstname, 'lastname': _lastname},
+    'address': {
+      'city': _city,
+      'street': _street,
+      'number': _number,
+      'zipcode': _zipcode,
+      'geolocation': {'lat': _lat, 'long': _lng}
     },
-    "phone": _phone,
+    'phone': _phone,
   };
 
-  static final model = Profile(
+  static const model = Profile(
     id: _id,
     email: _email,
     username: _username,
@@ -52,14 +52,15 @@ class _ProfileFake {
       lastName: _lastname,
     ),
     address: Address(
-        city: _city,
-        zipcode: _zipcode,
-        number: _number,
-        street: _street,
-        geolocation: Geolocation(
-          lat: _lat,
-          lng: _lng,
-        )),
+      city: _city,
+      zipcode: _zipcode,
+      number: _number,
+      street: _street,
+      geolocation: Geolocation(
+        lat: _lat,
+        lng: _lng,
+      ),
+    ),
     phone: _phone,
   );
 }

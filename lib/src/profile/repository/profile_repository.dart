@@ -16,9 +16,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final response = await _dio.get('users/1');
       return Profile.fromJson(response.data);
     } on DioError catch (_) {
-      throw 'Network error';
-    } catch (_) {
-      throw 'Something went wrong.';
+      throw const AppError('Network error');
+    } on dynamic catch (_) {
+      throw const AppError('Something went wrong.');
     }
   }
 }

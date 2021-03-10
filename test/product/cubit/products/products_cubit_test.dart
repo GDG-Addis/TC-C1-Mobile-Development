@@ -22,10 +22,11 @@ void main() {
     });
 
     group('getAll', () {
-      const error = 'Something went wrong';
+      const error = AppError('Something went wrong');
 
       blocTest<ProductsCubit, ProductsState>(
-        'should emit [ ProductsLoadingState, ProductsLoadedState ] when products are loaded',
+        'should emit [ ProductsLoadingState, ProductsLoadedState ] when '
+        'products are loaded',
         build: () {
           when(productRepository.getAll()).thenAnswer((_) async => []);
           return productsCubit;
@@ -38,7 +39,8 @@ void main() {
       );
 
       blocTest<ProductsCubit, ProductsState>(
-        'should emit [ ProductsLoadingState, ProductsErrorState ] when error is thrown',
+        'should emit [ ProductsLoadingState, ProductsErrorState ] when error is'
+        ' thrown',
         build: () {
           when(productRepository.getAll()).thenAnswer((_) async => throw error);
           return productsCubit;
@@ -46,16 +48,17 @@ void main() {
         act: (cubit) => cubit.getAll(),
         expect: [
           const ProductsLoadingState(),
-          const ProductsErrorState(error: error),
+          ProductsErrorState(error: error.message),
         ],
       );
     });
 
     group('refresh', () {
-      const error = 'Something went wrong';
+      const error = AppError('Something went wrong');
 
       blocTest<ProductsCubit, ProductsState>(
-        'should emit [ ProductsRefreshingState, ProductsLoadedState ] when products are loaded',
+        'should emit [ ProductsRefreshingState, ProductsLoadedState ] when '
+        'products are loaded',
         build: () {
           when(productRepository.getAll()).thenAnswer((_) async => []);
           return productsCubit;
@@ -68,7 +71,8 @@ void main() {
       );
 
       blocTest<ProductsCubit, ProductsState>(
-        'should emit [ ProductsRefreshingState, ProductsErrorState ] when error is thrown',
+        'should emit [ ProductsRefreshingState, ProductsErrorState ] when error'
+        ' is thrown',
         build: () {
           when(productRepository.getAll()).thenAnswer((_) async => throw error);
           return productsCubit;
@@ -76,7 +80,7 @@ void main() {
         act: (cubit) => cubit.refresh(),
         expect: [
           const ProductsRefreshingState(),
-          const ProductsErrorState(error: error),
+          ProductsErrorState(error: error.message),
         ],
       );
     });

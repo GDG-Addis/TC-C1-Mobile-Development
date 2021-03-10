@@ -13,12 +13,14 @@ void main() {
       };
 
       for (final category in categories.entries) {
+        // ignore: prefer_const_constructors
         final converter = CategoryConverter();
         expect(converter.fromJson(category.key), category.value);
       }
     });
 
     test('toJson should always return null', () {
+      // ignore: prefer_const_constructors
       final converter = CategoryConverter();
       expect(converter.toJson(const MenClothingProductCategory()), null);
       expect(converter.toJson(const WomenClothingProductCategory()), null);

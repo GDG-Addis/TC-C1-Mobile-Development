@@ -28,7 +28,7 @@ class _CartFake {
 
   static final model = Cart(
     quantity: 2,
-    product: Product(
+    product: const Product(
       id: _productId,
       title: _title,
       image: _image,
@@ -39,7 +39,7 @@ class _CartFake {
   );
 
   static final json = {
-    "product": {
+    'product': {
       'id': _productId,
       'price': _price,
       'title': _title,
@@ -47,6 +47,6 @@ class _CartFake {
       'category': _category,
       'image': _image,
     },
-    "quantity": _quantity,
+    'quantity': _quantity,
   };
 }

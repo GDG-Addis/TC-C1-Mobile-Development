@@ -10,7 +10,7 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   ProductsCubit(this._productRepository)
       : assert(_productRepository != null),
-        super(InitialProductsState());
+        super(const InitialProductsState());
 
   Future<void> getAll() {
     emit(const ProductsLoadingState());
@@ -26,8 +26,8 @@ class ProductsCubit extends Cubit<ProductsState> {
     try {
       final products = await _productRepository.getAll();
       emit(ProductsLoadedState(products: products));
-    } on String catch (error) {
-      emit(ProductsErrorState(error: error));
+    } on AppError catch (error) {
+      emit(ProductsErrorState(error: error.message));
     }
   }
 }

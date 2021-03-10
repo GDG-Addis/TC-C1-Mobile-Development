@@ -8,7 +8,7 @@ part 'geolocation_model.g.dart';
 abstract class Geolocation with _$Geolocation {
   const factory Geolocation({
     @required String lat,
-    @required @JsonKey(name: "long") String lng,
+    @required @JsonKey(name: 'long') String lng,
   }) = _Geolocation;
 
   factory Geolocation.fromJson(Map<String, dynamic> json) =>

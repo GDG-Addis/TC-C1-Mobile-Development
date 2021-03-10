@@ -23,7 +23,7 @@ void main() {
         'id': 1,
         'email': 'John@gmail.com',
         'username': 'johnd',
-        'password': 'm38rmF\$',
+        'password': 'm38rmF',
         'name': {'firstname': 'John', 'lastname': 'Doe'},
         'address': {
           'city': 'kilcoole',
@@ -48,17 +48,18 @@ void main() {
         when(dio.get(path)).thenAnswer(
             (_) async => throw DioError(response: Response(statusCode: 404)));
 
-        expect(productRepositoryImpl.get, throwsA(equals('Network error')));
+        expect(productRepositoryImpl.get,
+            throwsA(equals(const AppError('Network error'))));
       });
 
       test(
-          'should throw Something went wrong when invalid data is returned from dio',
-          () {
+          'should throw Something went wrong when invalid data is returned from'
+          ' dio', () {
         when(dio.get(path))
             .thenAnswer((_) async => Response(statusCode: 200, data: {}));
 
         expect(productRepositoryImpl.get,
-            throwsA(equals('Something went wrong.')));
+            throwsA(equals(const AppError('Something went wrong.'))));
       });
     });
   });

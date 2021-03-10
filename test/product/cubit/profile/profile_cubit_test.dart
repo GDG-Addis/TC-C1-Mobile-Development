@@ -14,16 +14,17 @@ void main() {
 
   tearDown(() => profileCubit?.close());
 
-  test("throws AssertionError when repository is null", () {
+  test('throws AssertionError when repository is null', () {
     expect(() => ProfileCubit(null), throwsAssertionError);
   });
 
-  group("get", () {
+  group('get', () {
     final profile = _Fakes.profile;
-    final mockException = Exception("something went wrong");
+    const mockException = AppError('something went wrong');
 
     blocTest<ProfileCubit, ProfileState>(
-      "should emit [ ProfileLoadingState, ProfileLoadedState ] when profile is loaded",
+      'should emit [ ProfileLoadingState, ProfileLoadedState ] when profile is'
+      ' loaded',
       build: () {
         when(profileRepository.get()).thenAnswer((_) async => profile);
         return profileCubit;
@@ -36,7 +37,8 @@ void main() {
     );
 
     blocTest<ProfileCubit, ProfileState>(
-      "should emit [ ProfileLoadingState, ProfileErrorState ] when exception is thrown from the repository",
+      'should emit [ ProfileLoadingState, ProfileErrorState ] when exception '
+      'is thrown from the repository',
       build: () {
         when(profileRepository.get())
             .thenAnswer((_) async => throw mockException);
@@ -50,13 +52,13 @@ void main() {
     );
   });
 
-  group("refresh", () {
+  group('refresh', () {
     final profile = _Fakes.profile;
-    final mockException = Exception("something went wrong");
+    const mockException = AppError('something went wrong');
 
     blocTest<ProfileCubit, ProfileState>(
-      "should emit [ ProfileRefreshingState, ProfileLoadedState ] when profile "
-      "is refreshed",
+      'should emit [ ProfileRefreshingState, ProfileLoadedState ] when profile '
+      'is refreshed',
       build: () {
         when(profileRepository.get()).thenAnswer((_) async => profile);
         return profileCubit;
@@ -69,8 +71,8 @@ void main() {
     );
 
     blocTest<ProfileCubit, ProfileState>(
-      "should emit [ ProfileRefreshingState, ProfileErrorState] when exception "
-      "is throw from the repository",
+      'should emit [ ProfileRefreshingState, ProfileErrorState] when exception '
+      'is throw from the repository',
       build: () {
         when(profileRepository.get())
             .thenAnswer((_) async => throw mockException);
@@ -87,7 +89,7 @@ void main() {
 
 class _Fakes {
   static Profile get profile {
-    return Profile(
+    return const Profile(
       id: 1,
       phone: 'some phone',
       username: 'username',
