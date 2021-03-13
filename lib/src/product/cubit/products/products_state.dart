@@ -10,7 +10,6 @@ abstract class ProductsState with _$ProductsState {
   const factory ProductsState.initial() = InitialProductsState;
 
   const factory ProductsState.loaded({
-    ProductCategory category,
     @required List<Product> products,
   }) = ProductsLoadedState;
 

@@ -26,14 +26,6 @@ class CategoryConverter implements JsonConverter<ProductCategory, String> {
 
 @freezed
 abstract class ProductCategory with _$ProductCategory {
-  static const categories = [
-    WomenClothingProductCategory(),
-    MenClothingProductCategory(),
-    JeweleryProductCategory(),
-    ElectronicsProductCategory(),
-    OtherProductCategory(),
-  ];
-
   const factory ProductCategory.electronics() = ElectronicsProductCategory;
 
   const factory ProductCategory.jewelery() = JeweleryProductCategory;
