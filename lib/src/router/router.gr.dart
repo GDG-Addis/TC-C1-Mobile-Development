@@ -40,14 +40,12 @@ class Router extends RouterBase {
   final _pagesMap = <Type, AutoRouteFactory>{
     CartScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => CartScreen(),
+        builder: (context) => const CartScreen(),
         settings: data,
       );
     },
     ProductScreen: (data) {
-      final args = data.getArgs<ProductScreenArguments>(
-        orElse: () => ProductScreenArguments(),
-      );
+      final args = data.getArgs<ProductScreenArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProductScreen(
           key: args.key,
@@ -79,5 +77,5 @@ class Router extends RouterBase {
 class ProductScreenArguments {
   final Key key;
   final Product product;
-  ProductScreenArguments({this.key, this.product});
+  ProductScreenArguments({this.key, @required this.product});
 }

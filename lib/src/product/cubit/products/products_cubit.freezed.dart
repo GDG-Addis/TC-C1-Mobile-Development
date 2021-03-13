@@ -31,8 +31,10 @@ class _$ProductsStateTearOff {
   }
 
 // ignore: unused_element
-  ProductsLoadedState loaded({@required List<Product> products}) {
+  ProductsLoadedState loaded(
+      {ProductCategory category, @required List<Product> products}) {
     return ProductsLoadedState(
+      category: category,
       products: products,
     );
   }
@@ -54,7 +56,7 @@ mixin _$ProductsState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   });
   @optionalTypeArgs
@@ -62,7 +64,7 @@ mixin _$ProductsState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   });
@@ -132,15 +134,25 @@ class _$ProductsErrorStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$ProductsErrorState implements ProductsErrorState {
+class _$ProductsErrorState
+    with DiagnosticableTreeMixin
+    implements ProductsErrorState {
   const _$ProductsErrorState({@required this.error}) : assert(error != null);
 
   @override
   final String error;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProductsState.error(error: $error)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ProductsState.error'))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override
@@ -166,7 +178,7 @@ class _$ProductsErrorState implements ProductsErrorState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   }) {
     assert(error != null);
@@ -183,7 +195,7 @@ class _$ProductsErrorState implements ProductsErrorState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   }) {
@@ -258,12 +270,20 @@ class _$ProductsRefreshingStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$ProductsRefreshingState implements ProductsRefreshingState {
+class _$ProductsRefreshingState
+    with DiagnosticableTreeMixin
+    implements ProductsRefreshingState {
   const _$ProductsRefreshingState();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProductsState.refreshing()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'ProductsState.refreshing'));
   }
 
   @override
@@ -280,7 +300,7 @@ class _$ProductsRefreshingState implements ProductsRefreshingState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   }) {
     assert(error != null);
@@ -297,7 +317,7 @@ class _$ProductsRefreshingState implements ProductsRefreshingState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   }) {
@@ -367,12 +387,20 @@ class _$InitialProductsStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$InitialProductsState implements InitialProductsState {
+class _$InitialProductsState
+    with DiagnosticableTreeMixin
+    implements InitialProductsState {
   const _$InitialProductsState();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProductsState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'ProductsState.initial'));
   }
 
   @override
@@ -389,7 +417,7 @@ class _$InitialProductsState implements InitialProductsState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   }) {
     assert(error != null);
@@ -406,7 +434,7 @@ class _$InitialProductsState implements InitialProductsState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   }) {
@@ -461,7 +489,9 @@ abstract class $ProductsLoadedStateCopyWith<$Res> {
   factory $ProductsLoadedStateCopyWith(
           ProductsLoadedState value, $Res Function(ProductsLoadedState) then) =
       _$ProductsLoadedStateCopyWithImpl<$Res>;
-  $Res call({List<Product> products});
+  $Res call({ProductCategory category, List<Product> products});
+
+  $ProductCategoryCopyWith<$Res> get category;
 }
 
 /// @nodoc
@@ -477,32 +507,61 @@ class _$ProductsLoadedStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object category = freezed,
     Object products = freezed,
   }) {
     return _then(ProductsLoadedState(
+      category:
+          category == freezed ? _value.category : category as ProductCategory,
       products:
           products == freezed ? _value.products : products as List<Product>,
     ));
   }
+
+  @override
+  $ProductCategoryCopyWith<$Res> get category {
+    if (_value.category == null) {
+      return null;
+    }
+    return $ProductCategoryCopyWith<$Res>(_value.category, (value) {
+      return _then(_value.copyWith(category: value));
+    });
+  }
 }
 
 /// @nodoc
-class _$ProductsLoadedState implements ProductsLoadedState {
-  const _$ProductsLoadedState({@required this.products})
+class _$ProductsLoadedState
+    with DiagnosticableTreeMixin
+    implements ProductsLoadedState {
+  const _$ProductsLoadedState({this.category, @required this.products})
       : assert(products != null);
 
+  @override
+  final ProductCategory category;
   @override
   final List<Product> products;
 
   @override
-  String toString() {
-    return 'ProductsState.loaded(products: $products)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ProductsState.loaded(category: $category, products: $products)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ProductsState.loaded'))
+      ..add(DiagnosticsProperty('category', category))
+      ..add(DiagnosticsProperty('products', products));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProductsLoadedState &&
+            (identical(other.category, category) ||
+                const DeepCollectionEquality()
+                    .equals(other.category, category)) &&
             (identical(other.products, products) ||
                 const DeepCollectionEquality()
                     .equals(other.products, products)));
@@ -510,7 +569,9 @@ class _$ProductsLoadedState implements ProductsLoadedState {
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(products);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(category) ^
+      const DeepCollectionEquality().hash(products);
 
   @JsonKey(ignore: true)
   @override
@@ -523,7 +584,7 @@ class _$ProductsLoadedState implements ProductsLoadedState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   }) {
     assert(error != null);
@@ -531,7 +592,7 @@ class _$ProductsLoadedState implements ProductsLoadedState {
     assert(initial != null);
     assert(loaded != null);
     assert(loading != null);
-    return loaded(products);
+    return loaded(category, products);
   }
 
   @override
@@ -540,13 +601,13 @@ class _$ProductsLoadedState implements ProductsLoadedState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (loaded != null) {
-      return loaded(products);
+      return loaded(category, products);
     }
     return orElse();
   }
@@ -587,9 +648,11 @@ class _$ProductsLoadedState implements ProductsLoadedState {
 }
 
 abstract class ProductsLoadedState implements ProductsState {
-  const factory ProductsLoadedState({@required List<Product> products}) =
-      _$ProductsLoadedState;
+  const factory ProductsLoadedState(
+      {ProductCategory category,
+      @required List<Product> products}) = _$ProductsLoadedState;
 
+  ProductCategory get category;
   List<Product> get products;
   @JsonKey(ignore: true)
   $ProductsLoadedStateCopyWith<ProductsLoadedState> get copyWith;
@@ -615,12 +678,20 @@ class _$ProductsLoadingStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$ProductsLoadingState implements ProductsLoadingState {
+class _$ProductsLoadingState
+    with DiagnosticableTreeMixin
+    implements ProductsLoadingState {
   const _$ProductsLoadingState();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProductsState.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'ProductsState.loading'));
   }
 
   @override
@@ -637,7 +708,7 @@ class _$ProductsLoadingState implements ProductsLoadingState {
     @required TResult error(String error),
     @required TResult refreshing(),
     @required TResult initial(),
-    @required TResult loaded(List<Product> products),
+    @required TResult loaded(ProductCategory category, List<Product> products),
     @required TResult loading(),
   }) {
     assert(error != null);
@@ -654,7 +725,7 @@ class _$ProductsLoadingState implements ProductsLoadingState {
     TResult error(String error),
     TResult refreshing(),
     TResult initial(),
-    TResult loaded(List<Product> products),
+    TResult loaded(ProductCategory category, List<Product> products),
     TResult loading(),
     @required TResult orElse(),
   }) {

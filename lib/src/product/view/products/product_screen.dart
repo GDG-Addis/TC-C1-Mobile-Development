@@ -23,12 +23,18 @@ class ProductsScreen extends StatelessWidget {
               onRefresh: context.read<ProductsCubit>().refresh,
               child: BlocBuilder<ProductsCubit, ProductsState>(
                 buildWhen: (previous, current) => previous.maybeWhen(
-                  loaded: (products) => false,
+                  loaded: (_, products) => current.maybeWhen(
+                    refreshing: () => false,
+                    orElse: () => true,
+                  ),
                   orElse: () => true,
                 ),
                 builder: (context, state) => state.maybeWhen(
                   error: (error) => _ProductsErrorWidget(error: error),
-                  loaded: (products) => _ProductsGridView(products: products),
+                  loaded: (category, products) => _CategorySelectorWithProducts(
+                    products: products,
+                    category: category,
+                  ),
                   orElse: () => const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -70,6 +76,60 @@ class _CartButton extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _CategorySelectorWithProducts extends StatelessWidget {
+  final List<Product> products;
+  final ProductCategory category;
+
+  const _CategorySelectorWithProducts({
+    Key key,
+    this.category,
+    @required this.products,
+  })  : assert(products != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _ProductCategorySelector(selectedCategory: category),
+        _ProductsGridView(products: products),
+      ],
+    );
+  }
+}
+
+class _ProductCategorySelector extends StatelessWidget {
+  final ProductCategory selectedCategory;
+
+  const _ProductCategorySelector({Key key, this.selectedCategory})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(8),
+        physics: const BouncingScrollPhysics(),
+        children: ProductCategory.categories
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ChoiceChip(
+                  label: Text(e.name()),
+                  selected: e == selectedCategory,
+                  onSelected: (_) => context.read<ProductsCubit>().filter(e),
+                ),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -179,17 +239,31 @@ class _ProductsGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        childAspectRatio: 1 / 1.2,
+    return Expanded(
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 1 / 1.2,
+        ),
+        padding: const EdgeInsets.all(8),
+        itemCount: products.length,
+        // physics: const BouncingScrollPhysics(),
+        itemBuilder: (_, index) => _ProductItem(product: products[index]),
       ),
-      padding: const EdgeInsets.all(8),
-      itemCount: products.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (_, index) => _ProductItem(product: products[index]),
+    );
+  }
+}
+
+extension on ProductCategory {
+  String name() {
+    return when(
+      other: () => 'Other',
+      jewelery: () => 'Jewelery',
+      electronics: () => 'Electronics',
+      menClothing: () => 'Men Clothing',
+      womenClothing: () => 'Women clothing',
     );
   }
 }
