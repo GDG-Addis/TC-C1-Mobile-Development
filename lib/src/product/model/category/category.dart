@@ -12,11 +12,11 @@ class CategoryConverter implements JsonConverter<ProductCategory, String> {
     } else if (json == 'women clothing') {
       return const ProductCategory.womenClothing();
     } else if (json == 'electronics') {
-      return ProductCategory.electronics();
+      return const ProductCategory.electronics();
     } else if (json == 'jewelery') {
-      return ProductCategory.jewelery();
+      return const ProductCategory.jewelery();
     } else {
-      return ProductCategory.other();
+      return const ProductCategory.other();
     }
   }
 

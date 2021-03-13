@@ -9,7 +9,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Cart"),
+        title: const Text('My Cart'),
       ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (_, state) {
@@ -18,7 +18,7 @@ class CartScreen extends StatelessWidget {
             itemBuilder: (_, index) {
               final cart = state.carts[index];
               return ListTile(
-                leading: Container(
+                leading: SizedBox(
                   width: 60,
                   height: 60,
                   child: Image.network(cart.product.image),
@@ -55,7 +55,7 @@ class _CartAction extends StatelessWidget {
         ),
         Text('${cart.quantity}'),
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () => context.read<CartCubit>().addProduct(cart.product),
         )
       ],

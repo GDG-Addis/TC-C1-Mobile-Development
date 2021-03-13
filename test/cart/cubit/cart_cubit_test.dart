@@ -41,7 +41,8 @@ void main() {
       );
 
       blocTest<CartCubit, CartState>(
-        'should emit [ CartState, CartState ] when the same product is added multiple times',
+        'should emit [ CartState, CartState ] when the same product is added '
+        'multiple times',
         build: () => cartCubit,
         act: (cubit) => cubit..addProduct(product)..addProduct(product),
         expect: [
@@ -73,7 +74,7 @@ void main() {
           ..removeProduct(product),
         expect: [
           CartState(carts: [expectedFirstCart]),
-          CartState(carts: []),
+          const CartState(carts: []),
         ],
         verify: (cubit) => hydratedBlocStorage.write(CartCubit.key, []),
       );
@@ -107,14 +108,15 @@ void main() {
       );
 
       blocTest<CartCubit, CartState>(
-        'should emit [ CartState, CartState ] when a product quantity is decreased and to below zero after adding to the cart',
+        'should emit [ CartState, CartState ] when a product quantity is '
+        'decreased and to below zero after adding to the cart',
         build: () => cartCubit,
         act: (cubit) => cubit
           ..addProduct(product)
           ..decreaseQuantity(expectedFirstCart),
         expect: [
           CartState(carts: [expectedFirstCart]),
-          CartState(carts: []),
+          const CartState(carts: []),
         ],
       );
     });
@@ -123,5 +125,6 @@ void main() {
 
 class _MockStorage extends Mock implements Storage {
   @override
+  // ignore: type_annotate_public_apis
   Future<void> write(String key, value) async {}
 }

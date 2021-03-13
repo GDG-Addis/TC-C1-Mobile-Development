@@ -23,7 +23,7 @@ void main() {
         (tester) async {
       when(productsCubit.state).thenReturn(const InitialProductsState());
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: ProductsScreen(),
         ),
       );
@@ -59,7 +59,7 @@ void main() {
       HttpOverrides.global = null;
 
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: ProductsScreen(),
         ),
       );

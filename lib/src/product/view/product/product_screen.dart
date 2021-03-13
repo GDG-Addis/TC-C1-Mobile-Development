@@ -4,7 +4,7 @@ import 'package:techamp_flutter_shopping_app/app.dart';
 class ProductScreen extends StatelessWidget {
   final Product product;
 
-  const ProductScreen({Key key, this.product})
+  const ProductScreen({Key key, @required this.product})
       : assert(product != null),
         super(key: key);
 
@@ -15,10 +15,10 @@ class ProductScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             SizedBox(

@@ -12,7 +12,7 @@ class ProductsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.person, color: Colors.white),
+            icon: const Icon(Icons.person, color: Colors.white),
             onPressed: () => context.navigator.push(Routes.profileScreen),
           ),
         ),
@@ -29,8 +29,9 @@ class ProductsScreen extends StatelessWidget {
                 builder: (context, state) => state.maybeWhen(
                   error: (error) => _ProductsErrorWidget(error: error),
                   loaded: (products) => _ProductsGridView(products: products),
-                  orElse: () =>
-                      Center(child: const CircularProgressIndicator()),
+                  orElse: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
             ),
@@ -54,16 +55,16 @@ class _CartButton extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () => context.navigator.push(Routes.cartScreen),
-              child: Icon(Icons.shopping_cart),
+              child: const Icon(Icons.shopping_cart),
             ),
             if (count > 0)
               Positioned(
-                top: -4.0,
-                right: -2.0,
+                top: -4,
+                right: -2,
                 child: CircleAvatar(
-                  radius: 12.0,
+                  radius: 12,
                   backgroundColor: Colors.white,
-                  child: Text("$count"),
+                  child: Text('$count'),
                 ),
               )
           ],
@@ -76,7 +77,7 @@ class _CartButton extends StatelessWidget {
 class _ProductItem extends StatelessWidget {
   final Product product;
 
-  const _ProductItem({Key key, this.product})
+  const _ProductItem({Key key, @required this.product})
       : assert(product != null),
         super(key: key);
 
@@ -103,20 +104,20 @@ class _ProductItem extends StatelessWidget {
             Container(
               height: 48,
               color: Colors.grey[200],
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             product.title,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 4),
                           Text('${product.price} ETB'),
@@ -127,7 +128,7 @@ class _ProductItem extends StatelessWidget {
                   IconButton(
                     onPressed: () =>
                         context.read<CartCubit>().addProduct(product),
-                    icon: Icon(Icons.add_shopping_cart_rounded),
+                    icon: const Icon(Icons.add_shopping_cart_rounded),
                   ),
                 ],
               ),
@@ -142,7 +143,7 @@ class _ProductItem extends StatelessWidget {
 class _ProductsErrorWidget extends StatelessWidget {
   final String error;
 
-  const _ProductsErrorWidget({Key key, this.error})
+  const _ProductsErrorWidget({Key key, @required this.error})
       : assert(error != null),
         super(key: key);
 
@@ -161,7 +162,7 @@ class _ProductsErrorWidget extends StatelessWidget {
         Align(
           child: RaisedButton(
             onPressed: context.read<ProductsCubit>().refresh,
-            child: Text('Retry'),
+            child: const Text('Retry'),
           ),
         ),
       ],
@@ -172,20 +173,20 @@ class _ProductsErrorWidget extends StatelessWidget {
 class _ProductsGridView extends StatelessWidget {
   final List<Product> products;
 
-  const _ProductsGridView({Key key, this.products})
+  const _ProductsGridView({Key key, @required this.products})
       : assert(products != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         childAspectRatio: 1 / 1.2,
       ),
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       itemCount: products.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (_, index) => _ProductItem(product: products[index]),

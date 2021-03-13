@@ -7,8 +7,8 @@ part 'full_name_model.g.dart';
 @freezed
 abstract class FullName with _$FullName {
   const factory FullName({
-    @required @JsonKey(name: "firstname") String firstName,
-    @required @JsonKey(name: "lastname") String lastName,
+    @required @JsonKey(name: 'firstname') String firstName,
+    @required @JsonKey(name: 'lastname') String lastName,
   }) = _FullName;
 
   factory FullName.fromJson(Map<String, dynamic> json) =>

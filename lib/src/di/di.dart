@@ -11,18 +11,21 @@ void registerDependencies() {
   _registerCart();
 }
 
+void _registerCart() {
+  getIt.registerFactory<CartCubit>(() => CartCubit());
+}
+
 void _registerConfigurations() {
-  getIt
-    ..registerSingleton(
-      Dio(
-        BaseOptions(
-          baseUrl: 'https://fakestoreapi.com/',
-          connectTimeout: 20000,
-          receiveTimeout: 30000,
-          sendTimeout: 30000,
-        ),
+  getIt.registerSingleton(
+    Dio(
+      BaseOptions(
+        baseUrl: 'https://fakestoreapi.com/',
+        connectTimeout: 20000,
+        receiveTimeout: 30000,
+        sendTimeout: 30000,
       ),
-    );
+    ),
+  );
 }
 
 void _registerProduct() {
@@ -35,8 +38,4 @@ void _registerProfile() {
   getIt
     ..registerFactory<ProfileRepository>(() => ProfileRepositoryImpl(getIt()))
     ..registerFactory(() => ProfileCubit(getIt()));
-}
-
-void _registerCart() {
-  getIt..registerFactory<CartCubit>(() => CartCubit());
 }
