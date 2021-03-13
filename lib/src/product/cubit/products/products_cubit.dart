@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:techamp_flutter_shopping_app/app.dart';
 
@@ -12,16 +11,6 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this._productRepository)
       : assert(_productRepository != null),
         super(const InitialProductsState());
-
-  void filter(ProductCategory category) {
-    if (state is ProductsLoadedState) {
-      final ProductsLoadedState loadedState = state;
-      final products = loadedState.products
-          .where((element) => element.category == category)
-          .toList();
-      emit(ProductsLoadedState(products: products, category: category));
-    }
-  }
 
   Future<void> getAll() {
     emit(const ProductsLoadingState());
